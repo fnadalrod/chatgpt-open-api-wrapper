@@ -1,5 +1,5 @@
 {
-    "name": "fnadalrod/open-api-wrapper",
+    "name": "fnadalrod/chatgpt-open-api-wrapper",
     "description": "A simple PHP wrapper for the ChatGPT API",
     "license": "MIT",
     "authors": [
