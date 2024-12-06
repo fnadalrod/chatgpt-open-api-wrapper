@@ -11,7 +11,7 @@ This project is a **small PHP wrapper** designed to interact with the ChatGPT AP
 ## Installation
 
 ```bash
-composer require fnadalrod/open-api-wrapper
+composer require fnadalrod/chatgpt-open-api-wrapper
 ```
 
 ## Basic Usage
