@@ -2,15 +2,15 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use App\Enums\Engines;
 use App\HttpClient\OpenApiClient;
 
 $config = [
-    "http_client" => "guzzle",
     "api_key" => "****",
-    "engine" => "gpt-3.5-turbo"
+    "engine" => Engines::GPT_3_5_TURBO
 ];
 
 $openApiClient = new OpenApiClient($config);
-$openApiResponse = $openApiClient->prompt('Is it working?');
+$openApiResponse = $openApiClient->prompt('is it working?');
 
 echo $openApiResponse->getLastResponse();
