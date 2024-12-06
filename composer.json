@@ -17,11 +17,7 @@
     },
     "require": {
         "guzzlehttp/guzzle": "^7.9",
-        "symfony/serializer": "^5.4",
-        "symfony/property-access": "^5.4",
-        "jms/serializer": "^3.31",
-        "jms/serializer-bundle": "^5.5",
-      "ext-json": "*"
+        "ext-json": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.4"
