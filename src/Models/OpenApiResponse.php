@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use JMS\Serializer\Annotation as Serializer;
-
 class OpenApiResponse
 {
     protected string $id;
@@ -16,15 +14,11 @@ class OpenApiResponse
 
     /**
      * @var OpenApiResponseChoices[]
-     *
-     * @Serializer\Type("array<App\Models\OpenApiResponseChoices>")
      */
     protected array $choices = [];
 
     /**
      * @var OpenApiResponseUsage[]
-     *
-     * @Serializer\Type("array<App\Models\OpenApiResponseUsage>")
      */
     protected array $usage = [];
 
