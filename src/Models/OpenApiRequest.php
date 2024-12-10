@@ -4,46 +4,40 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\Engines;
-
 class OpenApiRequest
 {
-    public const MAX_TOKENS = 50;
-
-    private String $engine;
-
-    private String $token;
-
-    private String $text;
-
+    private string $engine;
+    private string $text;
+    private ?string $context = null;
     private int $maxTokens;
 
-    public function __construct(string $token, string $text, string $engine, int $maxTokens = self::MAX_TOKENS)
+    public function __construct(OpenApiPreMappingRequest $openApiPreMappingRequest, ?string $context = null)
     {
-        $this->engine = $engine;
-        $this->token = $token;
-        $this->text = $text;
-        $this->maxTokens = $maxTokens;
+        $this->engine = $openApiPreMappingRequest->getEngine();
+        $this->text = $openApiPreMappingRequest->getText();
+        $this->maxTokens = $openApiPreMappingRequest->getMaxTokens();
+        $this->context = $openApiPreMappingRequest->getContext();
     }
 
-    public function getEngine(): string
+    public function toArray(): array
     {
-        return $this->engine;
-    }
+        $messages = [];
+        $messages[] = [
+            'role' => 'user',
+            'content' => $this->text
+        ];
 
-    public function getToken(): string
-    {
-        return $this->token;
-    }
+        if ($this->context !== null) {
+            $messages[] = [
+                'role' => 'system',
+                'content' => $this->context
+            ];
+        }
 
-    public function getText(): string
-    {
-        return $this->text;
+        return [
+            'model' => $this->engine,
+            'messages' => $messages,
+            'max_tokens' => $this->maxTokens,
+        ];
     }
-
-    public function getMaxTokens(): int
-    {
-        return $this->maxTokens;
-    }
-
 }

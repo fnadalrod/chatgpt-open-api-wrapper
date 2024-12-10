@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\HttpClient;
 
 use App\Enums\Engines;
-use App\Models\OpenApiRequest;
+use App\Models\OpenApiPreMappingRequest;
 use App\Models\OpenApiResponse;
 
 class OpenApiClient implements OpenApiClientInterface
@@ -29,12 +29,14 @@ class OpenApiClient implements OpenApiClientInterface
         }
     }
 
-    public function prompt(string $text): OpenApiResponse
+    public function prompt(string $text, string $context = null): OpenApiResponse
     {
-        $request = new OpenApiRequest(
+        $request = new OpenApiPreMappingRequest(
             $this->apiKey,
             $text,
-            $this->engine
+            $this->engine,
+            OpenApiPreMappingRequest::MAX_TOKENS,
+            $context
         );
 
         return $this->httpClient->prompt($request);
