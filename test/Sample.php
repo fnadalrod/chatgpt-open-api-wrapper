@@ -11,6 +11,6 @@ $config = [
 ];
 
 $openApiClient = new OpenApiClient($config);
-$openApiResponse = $openApiClient->prompt('is it working?');
+$openApiResponse = $openApiClient->prompt('Is it working?', 'You can only respond with yes or no');
 
 echo $openApiResponse->getLastResponse();

@@ -8,6 +8,7 @@ use App\Exceptions\ExceededCurrentQuotaException;
 use App\Exceptions\IncorrectApiKeyProvidedException;
 use App\Exceptions\InvalidEngineException;
 use App\Factories\OpenApiResponseFactory;
+use App\Models\OpenApiPreMappingRequest;
 use App\Models\OpenApiRequest;
 use App\Models\OpenApiResponse;
 use GuzzleHttp\Client;
@@ -28,8 +29,9 @@ class GuzzleHttpClient implements HttpClientInterface
      * @throws ExceededCurrentQuotaException
      * @throws InvalidEngineException
      */
-    public function prompt(OpenApiRequest $request): OpenApiResponse {
+    public function prompt(OpenApiPreMappingRequest $request): OpenApiResponse {
         try {
+
             $response = $this->client->post(
                 'https://api.openai.com/v1/chat/completions',
                 [
@@ -37,14 +39,7 @@ class GuzzleHttpClient implements HttpClientInterface
                         'Authorization' => 'Bearer ' . $request->getToken(),
                         'Content-Type' => 'application/json',
                     ],
-                    'json' => [
-                        'model' => $request->getEngine(),
-                        'messages' => [[
-                            'role'=> 'user',
-                            'content'=> $request->getText()
-                        ]],
-                        'max_tokens' => $request->getMaxTokens(),
-                    ],
+                    'body' => \json_encode((new OpenApiRequest($request))->toArray(), JSON_THROW_ON_ERROR),
                 ]
             );
 
@@ -57,8 +52,6 @@ class GuzzleHttpClient implements HttpClientInterface
             InvalidEngineException::handleExceptionFromClientException($clientException);
 
             throw $clientException;
-        } catch (\Throwable $exception) {
-            throw $exception;
         }
     }
 }
